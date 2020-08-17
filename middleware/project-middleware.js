@@ -13,9 +13,7 @@ function validateProject() {
             })
             next()
         }
-
         next()
-
     }
 }
 
@@ -30,11 +28,11 @@ function validateProjectId () {
                 res.status(404).json({
                     error: "Project does not exist"
                 })
-                next()
             }
         })
-
-        next()
+        .catch(err => {
+            res.status(500).json(err)
+        })
     }
 }
 

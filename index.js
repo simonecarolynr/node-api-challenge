@@ -2,7 +2,7 @@ const server = require("./server")
 
 const port = 5000
 
-server.listen(() => {
+server.listen(port, () => {
     console.log(`*** server started on port ${port} ***`)
 })
 

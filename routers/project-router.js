@@ -5,10 +5,21 @@ const { validateProject, validateProjectId } = require("../middleware/project-mi
 const router = express.Router();
 
 //Creates a project
-router.post("projects/", validateProject, (req, res) => {
+router.post("/projects", (req, res) => {
+    console.log("This is happening")
     db.insert(req.body)
     .then(project => {
-        res.status(201).json(project)
+        if (!req.body.name) {
+            res.status(400).json({
+                error: "Name is required"
+            })
+        } else if (!req.body.description) {
+            res.status(400).json({
+                error: "Description is required"
+            })
+        } else {
+            res.status(201).json(project)
+        }
     })
     .catch(err => {
         res.status(500).json(err)
@@ -16,15 +27,21 @@ router.post("projects/", validateProject, (req, res) => {
 })
 
 //Reads all projects
-router.get("projects/", (req, res) => {
+router.get("/projects", (req, res) => {
     //no model function for this??
 })
 
 //Reads projects by ID
-router.get("projects/:project_id", validateProjectId, (req, res) => {
+router.get("/projects/:project_id", (req, res) => {
     db.get(req.params.project_id)
     .then(project => {
-        res.status(200).json(project)
+        if (project) {
+            res.status(200).json(project)
+        } else {
+            res.status(404).json({
+                error: "Project does not exist"
+            })
+        }
     })
     .catch(err => {
         res.status(500).json(err)
@@ -32,10 +49,16 @@ router.get("projects/:project_id", validateProjectId, (req, res) => {
 })
 
 //Reads project actions by project ID
-router.get("/projects/:project_id/actions", validateProjectId, (req, res) => {
+router.get("/projects/:project_id/actions", (req, res) => {
     db.getProjectActions(req.params.project_id)
     .then(actions => {
-        res.status(200).json(actions)
+        if (actions) {
+            res.status(200).json(actions)
+        } else if (!actions) {
+            res.status(404).json({
+                error: "Action does not exist"
+            })
+        }
     })
     .catch(err => {
         res.status(500).json(err)
@@ -43,21 +66,39 @@ router.get("/projects/:project_id/actions", validateProjectId, (req, res) => {
 })
 
 //Updates project by ID
-router.put("projects/:project_id", validateProjectId, validateProject, (req, res) => {
+router.put("/projects/:project_id", (req, res) => {
     db.update(req.params.id, req.body)
     .then(project => {
-        res.status(201).json(project)
+        if (project) {
+            res.status(201).json(project)
+        } else if (!project) {
+            res.status(404).json({
+                error: "project does not exist"
+            })
+        } else if (!req.body.name && !req.body.description) {
+            res.status(400).json({
+                error: "Missing input"
+            })
+        }
     })
     .catch(err => {
-        res.status(500).json(err)
+        res.status(500).json({
+            error: "We don't know what went wrong"
+        })
     })
 })
 
 //Deletes project by ID
-router.delete("projects/:project_id", validateProjectId, (req, res) => {
+router.delete("projects/:project_id", (req, res) => {
     db.remove(req.params.project_id)
     .then(project => {
-        res.status(200).json(project)
+        if (project) {
+            res.status(200).json(project)
+        } else if (!project) {
+            res.status(404).json({
+                error: "project does not exist"
+            })
+        }
     })
     .catch(err => {
         res.status(500).json(err)
