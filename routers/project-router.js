@@ -26,11 +26,6 @@ router.post("/projects", (req, res) => {
     })
 })
 
-//Reads all projects
-router.get("/projects", (req, res) => {
-    //no model function for this??
-})
-
 //Reads projects by ID
 router.get("/projects/:project_id", (req, res) => {
     db.get(req.params.project_id)
@@ -67,19 +62,9 @@ router.get("/projects/:project_id/actions", (req, res) => {
 
 //Updates project by ID
 router.put("/projects/:project_id", (req, res) => {
-    db.update(req.params.id, req.body)
+    db.update(req.params.project_id, req.body)
     .then(project => {
-        if (project) {
-            res.status(201).json(project)
-        } else if (!project) {
-            res.status(404).json({
-                error: "project does not exist"
-            })
-        } else if (!req.body.name && !req.body.description) {
-            res.status(400).json({
-                error: "Missing input"
-            })
-        }
+        res.status(201).json(project)
     })
     .catch(err => {
         res.status(500).json({
@@ -89,16 +74,10 @@ router.put("/projects/:project_id", (req, res) => {
 })
 
 //Deletes project by ID
-router.delete("projects/:project_id", (req, res) => {
+router.delete("/projects/:project_id", (req, res) => {
     db.remove(req.params.project_id)
     .then(project => {
-        if (project) {
-            res.status(200).json(project)
-        } else if (!project) {
-            res.status(404).json({
-                error: "project does not exist"
-            })
-        }
+        res.status(200).json(project)
     })
     .catch(err => {
         res.status(500).json(err)

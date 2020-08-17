@@ -6,7 +6,7 @@ const { validateProjectId } = require("../middleware/project-middleware")
 const router = express.Router()
 
 //Creates an action by project ID
-router.post("/projects/:project_id/actions", validateProjectId, validateAction, (req, res) => {
+router.post("/projects/:project_id/actions", (req, res) => {
     db.insert(req.body)
     .then(action => {
         res.status(201).json(action)
@@ -17,7 +17,7 @@ router.post("/projects/:project_id/actions", validateProjectId, validateAction, 
 })
 
 //Reads project action by ID
-router.get("/projects/:project_id/actions/:action_id", validateProjectId, validateActionId, (req, res) => {
+router.get("/projects/:project_id/actions/:action_id", (req, res) => {
     db.get(req.params.action_id)
     .then(action => {
         res.status(200).json(action)
@@ -28,7 +28,7 @@ router.get("/projects/:project_id/actions/:action_id", validateProjectId, valida
 })
 
 //Updates an action by ID
-router.put("/projects/:project_id/actions/:action_id", validateProjectId, validateActionId, validateAction, (req, res) => {
+router.put("/projects/:project_id/actions/:action_id", (req, res) => {
     db.update(req.params.action_id, req.body)
     .then(action => {
         res.status(201).json(action)
@@ -39,7 +39,7 @@ router.put("/projects/:project_id/actions/:action_id", validateProjectId, valida
 })
 
 //Deletes an action by ID
-router.delete("/projects/:project_id/actions/:action_id", validateActionId, validateProjectId, (req, res) => {
+router.delete("/projects/:project_id/actions/:action_id", (req, res) => {
     db.remove(req.params.action_id)
     .then(action => {
         res.status(200).json(action)
