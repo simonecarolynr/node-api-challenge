@@ -48,3 +48,5 @@ router.delete("/projects/:project_id/actions/:action_id", validateActionId, vali
         res.status(500).json(err)
     })
 })
+
+module.exports = router

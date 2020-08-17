@@ -1,16 +1,10 @@
-const express = require("express");
-const server = express();
-const router = require("./routers/project-router");
-
-server.use(express.json());
+const server = require("./server")
 
 const port = 5000
 
 server.listen(() => {
     console.log(`*** server started on port ${port} ***`)
 })
-
-
 
 
 /*

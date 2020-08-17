@@ -64,3 +64,4 @@ router.delete("projects/:project_id", validateProjectId, (req, res) => {
     })
 })
 
+module.exports = router
