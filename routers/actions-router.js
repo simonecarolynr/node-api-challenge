@@ -18,12 +18,13 @@ router.post("/projects/:project_id/actions", validateProjectId, validateAction, 
 
 //Reads project action by ID
 router.get("/projects/:project_id/actions/:action_id", validateProjectId, validateActionId, (req, res) => {
-
-})
-
-//Reads project actions by project ID
-router.get("/projects/:project_id/actions", validateProjectId, (req, res) => {
-
+    db.get(req.params.action_id)
+    .then(action => {
+        res.status(200).json(action)
+    })
+    .catch(err => {
+        res.status(500).json(err)
+    })
 })
 
 //Updates an action by ID
@@ -39,5 +40,11 @@ router.put("/projects/:project_id/actions/:action_id", validateProjectId, valida
 
 //Deletes an action by ID
 router.delete("/projects/:project_id/actions/:action_id", validateActionId, validateProjectId, (req, res) => {
-    
+    db.remove(req.params.action_id)
+    .then(action => {
+        res.status(200).json(action)
+    })
+    .catch(err => {
+        res.status(500).json(err)
+    })
 })

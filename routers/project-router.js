@@ -31,6 +31,17 @@ router.get("projects/:project_id", validateProjectId, (req, res) => {
     })
 })
 
+//Reads project actions by project ID
+router.get("/projects/:project_id/actions", validateProjectId, (req, res) => {
+    db.getProjectActions(req.params.project_id)
+    .then(actions => {
+        res.status(200).json(actions)
+    })
+    .catch(err => {
+        res.status(500).json(err)
+    })
+})
+
 //Updates project by ID
 router.put("projects/:project_id", validateProjectId, validateProject, (req, res) => {
     db.update(req.params.id, req.body)
