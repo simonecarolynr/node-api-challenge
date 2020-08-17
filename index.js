@@ -1,3 +1,18 @@
+const express = require("express");
+const server = express();
+const router = require("./routers/project-router");
+
+server.use(express.json());
+
+const port = 5000
+
+server.listen(() => {
+    console.log(`*** server started on port ${port} ***`)
+})
+
+
+
+
 /*
 play this: https://www.youtube.com/watch?v=d-diB65scQU
 
