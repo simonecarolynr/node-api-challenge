@@ -59,3 +59,21 @@ function getProjectActions(projectId) {
     .where("project_id", projectId)
     .then(actions => actions.map(action => mappers.actionToBody(action)));
 }
+
+// router.post("/projects/:project_id/actions", (req, res) => {
+//   db.get(req.params.project_id)
+//   .then(project => {
+//       console.log(project)
+//       if (!project) {
+//           res.status(404).json({
+//               error: "Project does not exist"
+//           }) 
+//       } else {
+//           db.insert(req.body)
+//           res.status(201).json(action)
+//       }
+//   })
+//   .catch(err => {
+//       res.status(500).json(err)
+//   })
+// })

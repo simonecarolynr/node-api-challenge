@@ -17,23 +17,21 @@ function validateProject() {
     }
 }
 
-function validateProjectId () {
-    return (req, res, next) => {
+function validateProjectId (req, res, next) {
         db.get(req.params.project_id)
         .then(project => {
-            if (project) {
-                req.project = project
-                next()
-            } else {
+            if (!project) {
                 res.status(404).json({
                     error: "Project does not exist"
                 })
+            } else {
+               next() 
             }
         })
         .catch(err => {
             res.status(500).json(err)
         })
-    }
+        next()
 }
 
 

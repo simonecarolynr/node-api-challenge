@@ -6,7 +6,7 @@ const { validateProjectId } = require("../middleware/project-middleware")
 const router = express.Router()
 
 //Creates an action by project ID
-router.post("/projects/:project_id/actions", (req, res) => {
+router.post("/projects/:project_id/actions", validateProjectId, (req, res) => {
     db.insert(req.body)
     .then(action => {
         res.status(201).json(action)
@@ -15,6 +15,7 @@ router.post("/projects/:project_id/actions", (req, res) => {
         res.status(500).json(err)
     })
 })
+
 
 //Reads project action by ID
 router.get("/projects/:project_id/actions/:action_id", (req, res) => {
